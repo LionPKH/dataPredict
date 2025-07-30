@@ -24,6 +24,15 @@ def key_from_filename(filename: str) -> datetime | str:
         )
     return filename
 
+def prepare_data(data: list[str]) -> list[str]:
+    result = []
+    for raw_line in data:
+        line = raw_line.strip()
+        fields = line.split(',')
+        timestamp = fields[0].split("+")[0]
+        result.append(",".join([timestamp] + fields[1:]))
+    return result
+
 def main():
     """
     Главная функция для объединения данных из вложенных архивов.
@@ -116,7 +125,9 @@ def main():
                                         # Если заголовок для этого типа файла еще не был записан
                                         if not headers_written[file_type]:
                                             # Читаем и записываем весь файл целиком (вместе с заголовком)
-                                            output_handler.write(csv_reader.read())
+                                            raw_data = csv_reader.readlines()
+                                            data = "\n".join(prepare_data(raw_data))
+                                            output_handler.write(data + "\n")
                                             headers_written[file_type] = True
                                             print(f"      -> Записан заголовок и данные в {FILE_TYPES[file_type]}")
                                         else:

@@ -2,3 +2,4 @@
 
 ./.venv/bin/python3 merge_data.py
 ./.venv/bin/python3 aggregate_data.py
+./.venv/bin/python3 interpolate_1.py
