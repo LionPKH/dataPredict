@@ -15,6 +15,7 @@ ACC_COLUMN_NAMES = ['timestamp', 'ax', 'ay', 'az']
 
 TIMESTAMP_COLUMN = 'timestamp'
 SPEED_COLUMN = 'speed'
+DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 
 
 def main():
@@ -34,7 +35,7 @@ def main():
         df_location = pd.read_csv(loc_path, header=None, names=LOC_COLUMN_NAMES)
 
         # <<< КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: Преобразуем текст в настоящую дату и время
-        df_location[TIMESTAMP_COLUMN] = pd.to_datetime(df_location[TIMESTAMP_COLUMN])
+        df_location[TIMESTAMP_COLUMN] = pd.to_datetime(df_location[TIMESTAMP_COLUMN], format=DATETIME_FORMAT)
 
         # <<< КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: Делаем время индексом
         df_location = df_location.set_index(TIMESTAMP_COLUMN)
@@ -46,7 +47,7 @@ def main():
         df_acc = pd.read_csv(acc_path, header=None, names=ACC_COLUMN_NAMES)
 
         # <<< КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: Здесь тоже преобразуем текст во время
-        df_acc[TIMESTAMP_COLUMN] = pd.to_datetime(df_acc[TIMESTAMP_COLUMN])
+        df_acc[TIMESTAMP_COLUMN] = pd.to_datetime(df_acc[TIMESTAMP_COLUMN], format=DATETIME_FORMAT)
 
         # <<< КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: И тоже делаем время индексом
         df_acc = df_acc.set_index(TIMESTAMP_COLUMN)

@@ -122,19 +122,21 @@ def main():
 
                                         output_handler = output_file_handlers[file_type]
 
+                                        _raw_data = csv_reader.readlines()
+                                        _data = "\n".join(prepare_data(_raw_data))
+
                                         # Если заголовок для этого типа файла еще не был записан
                                         if not headers_written[file_type]:
                                             # Читаем и записываем весь файл целиком (вместе с заголовком)
-                                            raw_data = csv_reader.readlines()
-                                            data = "\n".join(prepare_data(raw_data))
-                                            output_handler.write(data + "\n")
+
+                                            output_handler.write(_data + "\n")
                                             headers_written[file_type] = True
                                             print(f"      -> Записан заголовок и данные в {FILE_TYPES[file_type]}")
                                         else:
                                             # Пропускаем первую строку (заголовок)
-                                            next(csv_reader)
+                                            # next(csv_reader)
                                             # Записываем оставшиеся данные
-                                            output_handler.write(csv_reader.read())
+                                            output_handler.write(_data + "\n")
                                             print(f"      -> Добавлены данные в {FILE_TYPES[file_type]}")
 
             except zipfile.BadZipFile:
