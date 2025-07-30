@@ -61,7 +61,7 @@ def main():
     # Создаем объединенный DataFrame, взяв за основу плотный индекс из файла ускорений
     # и присоединив к нему колонку скорости. Там, где время не совпадает, будет NaN.
     # df_merged = df_acc.join(df_location)
-    df_merged = df_location.reindex(df_acc.index, method=None)
+    df_merged = df_acc.join(df_location)
 
     # --- 4. КОРРЕКТНАЯ ИНТЕРПОЛЯЦИЯ ПО ВРЕМЕНИ ---
     print("Выполнение интерполяции по временной шкале...")
