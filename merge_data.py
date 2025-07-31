@@ -15,6 +15,13 @@ FILE_TYPES = {
     'acceleration': 'all_acceleration.csv'
 }
 
+# Определяем заголовки для каждого типа файла
+FILE_HEADERS = {
+    'location': 'timestamp,latitude,longitude,speed,course',
+    'motion': 'timestamp,x_motion,y_motion,z_motion',
+    'acceleration': 'timestamp,x_accel,y_accel,z_accel'
+}
+
 
 def key_from_filename(filename: str) -> datetime | str:
     if groups := re.search(r"(\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2})", filename):
@@ -127,15 +134,14 @@ def main():
 
                                         # Если заголовок для этого типа файла еще не был записан
                                         if not headers_written[file_type]:
-                                            # Читаем и записываем весь файл целиком (вместе с заголовком)
-
+                                            # Записываем заголовок CSV
+                                            output_handler.write(FILE_HEADERS[file_type] + "\n")
+                                            # Записываем данные
                                             output_handler.write(_data + "\n")
                                             headers_written[file_type] = True
                                             print(f"      -> Записан заголовок и данные в {FILE_TYPES[file_type]}")
                                         else:
-                                            # Пропускаем первую строку (заголовок)
-                                            # next(csv_reader)
-                                            # Записываем оставшиеся данные
+                                            # Записываем только данные (заголовок уже записан)
                                             output_handler.write(_data + "\n")
                                             print(f"      -> Добавлены данные в {FILE_TYPES[file_type]}")
 

@@ -10,8 +10,8 @@ from pathlib import Path
 def merge_sensor_data(location_file, motion_file, acceleration_file):
     try:
         locations_df = pd.read_csv(location_file, names=("timestamp", "latitude", "longitude", "speed", "course"))
-        motions_df = pd.read_csv(motion_file, names=("timestamp", "gyro_x", "gyro_y", "gyro_z"))
-        accelerations_df = pd.read_csv(acceleration_file, names=("timestamp", "accel_x", "accel_y", "accel_z"))
+        motions_df = pd.read_csv(motion_file, names=("timestamp", "gyro_x", "gyro_y", "gyro_z"), low_memory=False)
+        accelerations_df = pd.read_csv(acceleration_file, names=("timestamp", "accel_x", "accel_y", "accel_z"), low_memory=False)
         print("Файлы 'location.csv', 'motion.csv' и 'acceleration.csv' успешно загружены.")
     except FileNotFoundError as e:
         print(f"Ошибка: файл не найден. Убедитесь, что {e.filename} находится в правильной директории.")
